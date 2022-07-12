@@ -1,0 +1,25 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #c4c3ca;
+    background-color: #1f2029;
+    overflow-x: hidden;
+}
+
+.custom {
+    width: 100px !important;
+    height: 40px !important;
+}
+
+.form-select {
+    margin-top: 5px;
+    width: 300px !important;
+}
+
+#line-container {
+    width: 300px;
+    height: 8px;
+    margin: 50px auto;
+}

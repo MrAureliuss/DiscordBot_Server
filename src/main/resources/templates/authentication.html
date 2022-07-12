@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ботовая | Аутентификация </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link href="/css/authentication.css" rel="stylesheet" type="text/css">
+    <link href="/libs/toastr/toastr.min.css" rel="stylesheet" type="text/css">
+    <script th:src="@{/libs/jquery/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/libs/toastr/toastr.min.js}"></script>
+    <script th:src="@{/libs/toastr/toastr-settings.js}"></script>
+    <script th:src="@{/js/auth-registration.js}"></script>
+</head>
+<body>
+<div class="section">
+    <div class="container">
+        <div class="row full-height justify-content-center">
+            <div class="col-12 text-center align-self-center py-5">
+                <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                    <h6 class="mb-0 pb-3"><span>Авторизация </span><span>Регистрация</span></h6>
+                    <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
+                    <label for="reg-log"></label>
+                    <div class="card-3d-wrap mx-auto">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="center-wrap">
+                                    <div class="section text-center">
+                                        <h4 class="mb-4 pb-3">Авторизация</h4>
+                                        <form th:method="POST" th:action="@{/sign_in}" id="authForm">
+                                            <div class="form-group">
+                                                <input type="text" name="username" class="form-style" placeholder="Имя пользователя" id="username" autocomplete="off">
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="password" class="form-style" placeholder="Пароль" id="password" autocomplete="off">
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <button type="submit" id="submitButtonAuth" class="btn mt-4">Войти</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back">
+                                <div class="center-wrap">
+                                    <div class="section text-center">
+                                        <h4 class="mb-4 pb-3">Регистрация</h4>
+                                        <form th:method="POST" th:action="@{/sign_up}" th:object="${user}" id="registrationForm">
+                                            <div class="form-group">
+                                                <input type="text" name="username_reg" class="form-style" th:field="*{username}" placeholder="Имя пользователя" id="username_reg" minlength="6" maxlength="64" autocomplete="off" required>
+                                                <i class="input-icon uil uil-user"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="password_reg" class="form-style" th:field="*{password}" placeholder="Пароль" id="password_reg" minlength="8" maxlength="128" autocomplete="off" required>
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="passwordConfirm_reg" class="form-style" th:field="*{passwordConfirm}" placeholder="Повторите пароль" id="passwordConfirm_reg" minlength="8" maxlength="128" autocomplete="off" required>
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <button type="submit" class="btn mt-4" id="submitButtonReg">Зарегистрироваться</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
