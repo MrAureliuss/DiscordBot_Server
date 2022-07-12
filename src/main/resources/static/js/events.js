@@ -14,3 +14,13 @@ $('#addServer').on("click", function (e) {
     lineBar.stop();
     registerNewChannel();
 });
+
+$('#editDisplayName').on("click", function (e) {
+    alertify.prompt("Введите новое название.", $("#selectServer option:selected").text(),
+        function(evt, value) {
+            changeDisplayName($("#selectOptions").val(), value)
+        },
+        function(){}
+    ).set({title:"Изменение дисплейного имени канала"}).set({labels:{ok:'Изменить', cancel: 'Выход'}});
+
+});

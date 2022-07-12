@@ -20,6 +20,9 @@ public class Channel {
     private String channelID;
 
     @NotNull
+    private String displayName;
+
+    @NotNull
     @ManyToOne
     private User owner;
 
@@ -32,6 +35,14 @@ public class Channel {
     @NotNull
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
     public String getChannelID() {
         return channelID;

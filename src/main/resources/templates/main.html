@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link href="/libs/toastr/toastr.min.css" rel="stylesheet" type="text/css">
+    <link href="/libs/alertify/alertify.min.css" rel="stylesheet" type="text/css">
+    <link href="/libs/alertify/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/css/main.css" rel="stylesheet" type="text/css">
     <link href="/css/sidebar.css" rel="stylesheet" type="text/css">
 </head>
@@ -30,10 +32,10 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-success custom bx bx-plus-circle" id="addServer"></button>
                     <button type="button" class="btn btn-danger custom bx bxs-minus-circle"></button>
-                    <button type="button" class="btn btn-primary custom bx bxs-message-square-edit"></button>
+                    <button type="button" class="btn btn-primary custom bx bxs-message-square-edit" id="editDisplayName"></button>
                 </div>
                 <select class="form-select" aria-label="Default select example" id="selectServer">
-                    <option th:each="channels : ${channels}" th:value="${channels.getChannelID}" th:text="${channels.getChannelID}"></option>
+                    <option th:each="channels : ${channels}" th:value="${channels.getChannelID}" th:text="${channels.getDisplayName}" id="selectOptions"></option>
                 </select>
                 <div id="line-container"></div>
             </div>
@@ -57,6 +59,7 @@
 <script th:src="@{/libs/toastr/toastr.min.js}"></script>
 <script th:src="@{/libs/progressbar/progressbar.js}"></script>
 <script th:src="@{/libs/toastr/toastr-settings.js}"></script>
+<script th:src="@{/libs/alertify/alertify.min.js}"></script>
 
 <script th:src="@{/js/sidebar.js}"></script>
 <script th:src="@{/js/events.js}"></script>

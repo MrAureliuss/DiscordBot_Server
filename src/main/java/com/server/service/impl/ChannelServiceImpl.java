@@ -4,14 +4,13 @@ import com.server.entity.Channel;
 import com.server.entity.User;
 import com.server.repository.ChannelRepository;
 import com.server.service.interfaces.ChannelService;
-import com.server.utils.exceptions.ChannelWithSameIDAlreadyExistException;
-import com.server.utils.exceptions.UUIDTokenAlreadyExistException;
-import com.server.utils.exceptions.UUIDTokenNotExistException;
+import com.server.utils.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Класс для регистрации канала в БД и привязки его к админу на сайте.
@@ -21,6 +20,7 @@ import java.time.LocalDateTime;
  *
  * @see ChannelServiceImpl#addChannel(String userUUID)
  * @see ChannelServiceImpl#submitChannel(String UUID, String channelID)
+ * @see ChannelServiceImpl#changeDisplayName(String channelID, String newDisplayName);
  *
  * @author Aurelius
  */
@@ -47,6 +47,7 @@ public class ChannelServiceImpl implements ChannelService {
 
         Channel newChannel = new Channel();
         newChannel.setChannelID("");
+        newChannel.setDisplayName("");
         newChannel.setActive(false);
         newChannel.setLocalDateTime(LocalDateTime.now());
         newChannel.setRegistrationUUIDToken(userUUID);
@@ -81,6 +82,7 @@ public class ChannelServiceImpl implements ChannelService {
         }
 
         channelByRegistrationUUIDToken.setChannelID(channelID);
+        channelByRegistrationUUIDToken.setDisplayName(channelID);
         channelByRegistrationUUIDToken.setLocalDateTime(LocalDateTime.now());
         channelByRegistrationUUIDToken.setActive(true);
 
@@ -88,6 +90,34 @@ public class ChannelServiceImpl implements ChannelService {
         return true;
     }
 
+    /**
+     * Метод для изменения дисплейного назваания канла.
+     *
+     * @param channelID Уникальный индентификатор канала, для которого будет происходить смена дисплейного имени.
+     * @param newDisplayName Новое дисплейное название на которое при успехе произойдет изменение.
+     * @return true при успешном измнении названия или false при неуспешном.
+     */
+    @Override
+    public boolean changeDisplayName(String channelID, String newDisplayName) throws ChannelWithSameDisplayNameAlreadyExist, ChannelOwningException {
+        Set<Channel> userChannels = channelRepository.getChannelsByOwner((User)
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        for (Channel channel: userChannels) {
+            if (channel.getDisplayName().equals(newDisplayName)) {
+                throw new ChannelWithSameDisplayNameAlreadyExist("Ошибка! Дисплейное имя канала должно быть уникальным!");
+            }
+        } // Если такое дисплейное название уже есть у пользователя - запрещаем изменене.
+
+        Channel channelFromDB = channelRepository.findChannelByChannelID(channelID);
+        if (channelFromDB == null || channelFromDB.getOwner().getID() != ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID()) {
+            throw new ChannelOwningException("Ошибка! Вы не владелец данного канала!");
+        }
+
+        channelFromDB.setDisplayName(newDisplayName);
+        channelRepository.save(channelFromDB);
+
+        return true;
+    }
 
     @Override
     public boolean deleteChannel(Long ID) {
