@@ -120,7 +120,15 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public boolean deleteChannel(Long ID) {
-        return false;
+    public boolean deleteChannel(String channelID) throws ChannelOwningException {
+        Channel channelFromDB = channelRepository.findChannelByChannelID(channelID);
+        System.out.println(channelFromDB);
+        if (channelFromDB == null || channelFromDB.getOwner().getID() != ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID()) {
+            throw new ChannelOwningException("Ошибка! Вы не владелец данного канала!");
+        }
+
+        channelRepository.delete(channelFromDB);
+
+        return true;
     }
 }

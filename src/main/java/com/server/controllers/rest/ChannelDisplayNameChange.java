@@ -1,6 +1,5 @@
 package com.server.controllers.rest;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.server.service.impl.ChannelServiceImpl;
 import com.server.utils.exceptions.ChannelOwningException;
 import com.server.utils.exceptions.ChannelWithSameDisplayNameAlreadyExist;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Класс-контроллер отвечающий за изменение дисплейного название канала.
 
- * @see DisplayNameChange#changeDisplayName(MultiValueMap)
+ * @see ChannelDisplayNameChange#changeDisplayName(MultiValueMap)
  *
  * @author Aurelius
  */
 @RestController
-public class DisplayNameChange {
+public class ChannelDisplayNameChange {
     @Autowired
     ChannelServiceImpl channelRepository;
 

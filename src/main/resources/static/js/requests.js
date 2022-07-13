@@ -25,6 +25,7 @@ function changeDisplayName(channelID, newDisplayName) {
         url: '/change_displayName',
         data: {channelID: channelID, newDisplayName: newDisplayName},
         success: function (data) {
+            $("#selectServer").find("option:selected").text(newDisplayName);
             toastr["success"]('Дисплейное название канала успешно изменено на ' + newDisplayName);
         },
         error: function (data, error, msg) {
@@ -34,6 +35,27 @@ function changeDisplayName(channelID, newDisplayName) {
                 toastr["error"](data.responseText);
             } else {
                 toastr["error"]("Ошибка! Не удалось изменить дисплейное имя!");
+            }
+        }
+    })
+}
+
+function deleteChannel(channelID) {
+    $.post({
+        url: '/channel_delete',
+        data: channelID,
+        success: function (data) {
+            $('#selectServer').find('[value="' + channelID + '"]').remove();
+            toastr["success"]('Канал успешно удален из вашего списка каналов');
+        },
+        error: function (data, error, msg) {
+            if (data.status === 400) {
+                console.log(data.responseText);
+                toastr["error"](data.responseText);
+            } else if (data.status === 409) {
+                toastr["error"](data.responseText);
+            } else {
+                toastr["error"]("Ошибка! Не удалось удалить канал!");
             }
         }
     })

@@ -21,6 +21,14 @@ $('#editDisplayName').on("click", function (e) {
             changeDisplayName($("#selectOptions").val(), value)
         },
         function(){}
-    ).set({title:"Изменение дисплейного имени канала"}).set({labels:{ok:'Изменить', cancel: 'Выход'}});
+    ).set({title:"Изменение дисплейного имени канала"}).set({labels:{ok:'Изменить', cancel: 'Отменить'}});
+});
 
+$('#deleteServer').on("click", function (e) {
+    alertify.confirm('Подтверждение удаления канала', 'Вы точно хотите удалить этот канал из списка ваших каналов?',
+        function() {
+            deleteChannel($("#selectOptions").val());
+        },
+        function() {}
+    ).set({labels:{ok:'Удалить', cancel: 'Отмена'}});
 });
