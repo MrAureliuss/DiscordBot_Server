@@ -27,12 +27,10 @@ public class ChannelDisplayNameChange {
      * Метод для изменения дисплейного названия канала.
      *
      * @param objectNode Объект, хранящий тело запроса пришедшее с клиента.
-     * @return Ошибку 400/409 при неудаче(канал с таким дисплейным именем уже существует или канал не принадлежит пользователю) или 200 при успехе
-     * @throws ChannelWithSameDisplayNameAlreadyExist Если у пользователя уже есть канал с таким дисплейным именем.
-     * @throws ChannelOwningException Если канал с этим ID не принадлежит пользователю.
+     * @return ResponseEntity<>, ошибку 400/409/422 при неудаче(канал с таким дисплейным именем уже существует или канал не принадлежит пользователю) или 200 при успехе
      */
     @PostMapping("/change_displayName")
-    public ResponseEntity<String> changeDisplayName(@RequestParam MultiValueMap<String, String> objectNode) throws ChannelWithSameDisplayNameAlreadyExist, ChannelOwningException {
+    public ResponseEntity<String> changeDisplayName(@RequestParam MultiValueMap<String, String> objectNode) {
         try {
             channelRepository.changeDisplayName(objectNode.get("channelID").toString().trim().replaceAll("\\[", "").replaceAll("]",""),
                     objectNode.get("newDisplayName").toString().trim().replaceAll("\\[", "").replaceAll("]",""));
@@ -41,6 +39,8 @@ public class ChannelDisplayNameChange {
             return new ResponseEntity<>(channelWithSameDisplayNameAlreadyExist.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ChannelOwningException channelOwningException) {
             return new ResponseEntity<>(channelOwningException.getMessage(), HttpStatus.CONFLICT);
+        } catch (NullPointerException nullPointerException) {
+            return new ResponseEntity<>("Ошибка! Не выбран канал для изменения дисплейного названия!", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 }
