@@ -23,3 +23,19 @@ body {
     height: 8px;
     margin: 50px auto;
 }
+
+.tab-pane.show.active {
+    width: 300px;
+}
+
+.btn.control {
+    margin-top: 10px;
+    width: 147px;
+    height: 60px;
+}
+
+.form-control {
+    margin-top: 10px;
+    resize: none;
+    height: 200px;
+}

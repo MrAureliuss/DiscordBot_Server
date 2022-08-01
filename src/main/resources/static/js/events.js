@@ -1,4 +1,4 @@
-$('#selectServer').on("click", function (e) {
+$('.form-select').on("click", function (e) {
     if (document.getElementById("selectServer").length === 0) {
         toastr.error("Вы еще не добавили бот ни на один сервер!<br>Используйте зеленую кнопку сверху для добавления бота на свой сервер",
             "",
@@ -31,4 +31,12 @@ $('#deleteServer').on("click", function (e) {
         },
         function() {}
     ).set({labels:{ok:'Удалить', cancel: 'Отмена'}});
+});
+
+$("#speechSynthesis").on("click", function () {
+    speechSynthesis();
+});
+
+$("#sendMessage").on("click", function () {
+    sendMessage();
 });

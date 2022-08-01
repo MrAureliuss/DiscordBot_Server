@@ -36,6 +36,7 @@ public class MainController {
         Set<Channel> channels = channelRepository.getChannelsByOwner(user);
 
         model.addAttribute("channels", channels);
+        model.addAttribute("user_id", user.getID());
         return "main";
     }
 }

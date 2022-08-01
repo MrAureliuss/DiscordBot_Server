@@ -29,9 +29,7 @@ function changeDisplayName(channelID, newDisplayName) {
             toastr["success"]('Дисплейное название канала успешно изменено на ' + newDisplayName);
         },
         error: function (data, error, msg) {
-            if (data.status === 400) {
-                toastr["error"](data.responseText);
-            } else if (data.status === 422) {
+            if ((data.status === 400) || (data.status === 422)) {
                 toastr["error"](data.responseText);
             } else {
                 toastr["error"]("Ошибка! Не удалось изменить дисплейное имя!");
@@ -49,13 +47,56 @@ function deleteChannel(channelID) {
             toastr["success"]('Канал успешно удален из вашего списка каналов!');
         },
         error: function (data, error, msg) {
-            if (data.status === 400) {
-                console.log(data.responseText);
-                toastr["error"](data.responseText);
-            } else if (data.status === 422) {
+            if ((data.status === 400) || (data.status === 422)) {
                 toastr["error"](data.responseText);
             } else {
                 toastr["error"]("Ошибка! Не удалось удалить канал!");
+            }
+        }
+    })
+}
+
+function speechSynthesis() {
+    $.post({
+        url: 'http://localhost:8000/speech_synthesis',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            "display_name": $("#selectServerControl option:selected").val(),
+            "speech_text": $("#textArea").val(),
+            "user_id": user_id
+        }),
+        success: function (data) {
+            toastr["success"](data);
+        },
+        error: function (data, error, msg) {
+            if ((data.status === 400) || (data.status === 403))  {
+                toastr["error"](JSON.parse(data.responseText)['detail']);
+            } else {
+                toastr["error"]("Ошибка! Не удалось синтезировать текст!");
+            }
+        }
+    })
+}
+
+function sendMessage() {
+    $.post({
+        url: 'http://localhost:8000/send_speech',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            "display_name": $("#selectServerControl option:selected").val(),
+            "speech_text": $("#textArea").val(),
+            "user_id": user_id
+        }),
+        success: function (data) {
+            toastr["success"](data);
+        },
+        error: function (data, error, msg) {
+            if ((data.status === 400) || (data.status === 403))  {
+                toastr["error"](JSON.parse(data.responseText)['detail']);
+            } else {
+                toastr["error"]("Ошибка! Не удалось отправить текст!");
             }
         }
     })

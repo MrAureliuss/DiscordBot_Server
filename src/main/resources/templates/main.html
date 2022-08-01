@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-sm justify-content-center mb-0 h1 fs-4">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Мои каналы</a>
-            <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Настройка бота</a>
+            <a class="nav-link" id="nav-control-tab" data-bs-toggle="tab" href="#nav-control" role="tab" aria-controls="nav-control" aria-selected="false">Управление ботом</a>
             <a class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">White-list</a>
         </div>
     </nav>
@@ -39,10 +39,16 @@
                 </select>
                 <div id="line-container"></div>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <p>clicked profile</p>
-                <p>clicked profile</p>
-                <p>clicked profile</p>
+            <div class="tab-pane fade" id="nav-control" role="tabpanel" aria-labelledby="nav-control-tab">
+                <select class="form-select" aria-label="Default select example" id="selectServerControl">
+                    <option th:each="channels : ${channels}" th:value="${channels.getChannelID}" th:text="${channels.getDisplayName}" id="selectServerOptions"></option>
+                </select>
+
+                <button type="button" class="btn btn-success btn-block control" id="speechSynthesis">Синтез речи</button>
+                <button type="button" class="btn btn-danger btn-block control" id="sendMessage">Отправка сообщений</button>
+                <div class="form-group">
+                    <textarea class="form-control" id="textArea" rows="3"></textarea>
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                 <p>clicked contact</p>
@@ -52,6 +58,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    let user_id = "[[${user_id}]]";
+</script>
 
 <script th:src="@{/libs/jquery/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/libs/bootstrap/bootstrap.bundle.min.js}"></script>

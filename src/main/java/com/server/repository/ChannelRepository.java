@@ -17,6 +17,4 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
     @Query(value = "SELECT * FROM channels WHERE channelID <> '' AND channelID IS NOT NULL AND owner_id = ?1", nativeQuery = true)
     Set<Channel> getChannelsByOwner(User user);
     Channel findChannelByRegistrationUUIDToken(String UUID);
-
-
 }
