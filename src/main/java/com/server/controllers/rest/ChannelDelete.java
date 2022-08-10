@@ -24,7 +24,7 @@ public class ChannelDelete {
     /**
      * Метод для удаления канала из БД.
      *
-     * @param channelID Канал, который надо будет удалить из БД
+     * @param channelID Канал, который надо будет удалить из БД.
      * @return ResponseEntity<>, ошибку 400/422 при неудаче и 200 при успешном удалении.
      */
     @PostMapping("/channel_delete")

@@ -20,7 +20,7 @@ import java.util.Set;
  *
  * @see ChannelServiceImpl#addChannel(String userUUID)
  * @see ChannelServiceImpl#submitChannel(String UUID, String channelID)
- * @see ChannelServiceImpl#changeDisplayName(String channelID, String newDisplayName);
+ * @see ChannelServiceImpl#changeDisplayName(String channelID, String newDisplayName)
  *
  * @author Aurelius
  */
@@ -106,7 +106,7 @@ public class ChannelServiceImpl implements ChannelService {
             if (channel.getDisplayName().equals(newDisplayName)) {
                 throw new ChannelWithSameDisplayNameAlreadyExist("Ошибка! Дисплейное имя канала должно быть уникальным!");
             }
-        } // Если такое дисплейное название уже есть у пользователя - запрещаем изменене.
+        } // Если такое дисплейное название уже есть у пользователя - запрещаем изменение.
 
         Channel channelFromDB = channelRepository.findChannelByChannelID(channelID);
         if (channelFromDB == null || channelFromDB.getOwner().getID() != ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID()) {
@@ -122,7 +122,6 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public boolean deleteChannel(String channelID) throws ChannelOwningException {
         Channel channelFromDB = channelRepository.findChannelByChannelID(channelID);
-        System.out.println(channelFromDB);
         if (channelFromDB == null || channelFromDB.getOwner().getID() != ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getID()) {
             throw new ChannelOwningException("Ошибка! Вы не владелец данного канала!");
         }

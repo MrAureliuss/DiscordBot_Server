@@ -1,6 +1,6 @@
 $('.form-select').on("click", function (e) {
     if (document.getElementById("selectServer").length === 0) {
-        toastr.error("Вы еще не добавили бот ни на один сервер!<br>Используйте зеленую кнопку сверху для добавления бота на свой сервер",
+        toastr.error("Вы еще не добавили бот ни на один сервер!<br>Используйте зеленую кнопку сверху в разделе 'Мои каналы' для добавления бота на свой сервер",
             "",
             {timeOut: 4000, allowHtml: true, progressBar: true}
         );
@@ -39,4 +39,12 @@ $("#speechSynthesis").on("click", function () {
 
 $("#sendMessage").on("click", function () {
     sendMessage();
+});
+
+$("#nav-blacklist-tab").on("click", function () {
+    getChannelBlacklist();
+});
+
+$("#addUserToBlackListBtn").on("click", function () {
+    addUserToChannelBlacklist();
 });

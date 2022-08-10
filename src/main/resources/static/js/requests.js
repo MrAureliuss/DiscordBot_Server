@@ -67,7 +67,7 @@ function speechSynthesis() {
             "user_id": user_id
         }),
         success: function (data) {
-            toastr["success"](data);
+            toastr["success"](data["success_message"]);
         },
         error: function (data, error, msg) {
             if ((data.status === 400) || (data.status === 403))  {
@@ -87,16 +87,88 @@ function sendMessage() {
         data: JSON.stringify({
             "display_name": $("#selectServerControl option:selected").val(),
             "speech_text": $("#textArea").val(),
-            "user_id": user_id
+            "channel_owner_id": user_id
         }),
         success: function (data) {
-            toastr["success"](data);
+            toastr["success"](data["success_message"]);
         },
         error: function (data, error, msg) {
             if ((data.status === 400) || (data.status === 403))  {
                 toastr["error"](JSON.parse(data.responseText)['detail']);
             } else {
                 toastr["error"]("Ошибка! Не удалось отправить текст!");
+            }
+        }
+    })
+}
+
+function getChannelBlacklist() {
+    $.post({
+        url: '/getBlacklistedUsers',
+        data: $("#selectServerControl option:selected").val(),
+        success: function (data) {
+            console.log(data);
+            fillTable(data);
+        },
+        error: function (data, error, msg) {
+            console.log(data);
+            if ((data.status === 400) || (data.status === 422))  {
+                toastr["error"](data.responseText);
+            } else {
+                toastr["error"]("Ошибка! Не удалось получить список заблокированных пользователей!");
+            }
+        }
+    })
+}
+
+
+function addUserToChannelBlacklist() {
+    $.post({
+        url: '/addUserToBlacklist',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            "display_name": $("#selectServerControl option:selected").val(),
+            "user_to_exist": $("#userToBlacklistText").val(),
+            "channel_owner_id": user_id
+        }),
+        success: function (data) {
+            toastr["success"](data);
+            getChannelBlacklist();
+        },
+        error: function (data, error, msg) {
+            console.log(data.responseText)
+            if ((data.status === 400) || (data.status === 403))  {
+                toastr["error"](data.responseText);
+            } else if (data.status === 422) {
+                toastr["error"](data.responseText);
+            } else {
+                toastr["error"]("Ошибка! Не удалось добавить пользователя в черный список канала!");
+            }
+        }
+    })
+}
+
+function deleteUserFromChannelBlacklist(userToDelete) {
+    $.post({
+        url: '/deleteUserFromBlacklist',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            "display_name": $("#selectServerControl option:selected").val(),
+            "user_to_delete": userToDelete,
+            "channel_owner_id": user_id
+        }),
+        success: function (data) {
+            toastr["success"](data);
+            getChannelBlacklist();
+        },
+        error: function (data, error, msg) {
+            console.log(data)
+            if ((data.status === 400) || (data.status === 403))  {
+                toastr["error"](data.responseText);
+            } else if (data.status === 422) {
+                toastr["error"](data.responseText);
+            } else {
+                toastr["error"]("Ошибка! Не удалось удалить пользователя из черного списка канала!");
             }
         }
     })

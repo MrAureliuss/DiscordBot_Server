@@ -34,8 +34,22 @@ body {
     height: 60px;
 }
 
-.form-control {
-    margin-top: 10px;
+#textArea {
     resize: none;
     height: 200px;
+}
+
+.table {
+    margin-top: 10px;
+    width: 550px;
+    margin-left: -125px;
+}
+
+#addUserToBlackListBtn {
+    width: 300px;
+    height: 40px;
+}
+
+#userToBlacklistText {
+    margin-top: 10px;
 }
