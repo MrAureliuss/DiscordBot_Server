@@ -64,7 +64,7 @@ function speechSynthesis() {
         data: JSON.stringify({
             "display_name": $("#selectServerControl option:selected").val(),
             "speech_text": $("#textArea").val(),
-            "user_id": user_id
+            "channel_owner_id": user_id
         }),
         success: function (data) {
             toastr["success"](data["success_message"]);
@@ -73,6 +73,7 @@ function speechSynthesis() {
             if ((data.status === 400) || (data.status === 403))  {
                 toastr["error"](JSON.parse(data.responseText)['detail']);
             } else {
+                console.log(data)
                 toastr["error"]("Ошибка! Не удалось синтезировать текст!");
             }
         }
